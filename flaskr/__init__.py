@@ -1,7 +1,8 @@
-import json
-from flask import Flask, render_template_string
+from flask import Flask, render_template
 from flask_mongoengine import MongoEngine
-from flask_user import login_required, UserManager, UserMixin
+from flask_user import login_required, UserManager
+
+from .model import User
 
 
 def create_app():
@@ -16,21 +17,6 @@ def create_app():
     # Setup Flask-MongoEngine
     db = MongoEngine(app)
 
-    # Define the User document.
-    class User(db.Document, UserMixin):
-        active = db.BooleanField(default=True)
-
-        # User authentication information
-        username = db.StringField(default='')
-        password = db.StringField()
-
-        # User information
-        first_name = db.StringField(default='')
-        last_name = db.StringField(default='')
-
-        # Relationships
-        roles = db.ListField(db.StringField(), default=[])
-
     # Setup Flask-User and specify the User data-model
     user_manager = UserManager(app, db, User)
 
@@ -38,39 +24,20 @@ def create_app():
     @app.route('/')
     def home_page():
         # String-based templates
-        return render_template_string("""
-            {% extends "flask_user_layout.html" %}
-            {% block content %}
-                <h2>Home page</h2>
-                <p><a href={{ url_for('user.register') }}>Register</a></p>
-                <p><a href={{ url_for('user.login') }}>Sign in</a></p>
-                <p><a href={{ url_for('home_page') }}>Home page</a> (accessible to anyone)</p>
-                <p><a href={{ url_for('data_page') }}>Data page</a> (login required)</p>
-                <p><a href={{ url_for('user.logout') }}>Sign out</a></p>
-            {% endblock %}
-            """)
+        return render_template("/home.html")
 
-    # The Data page is only accessible to authenticated users via the @login_required decorator
-    @app.route('/data')
+    # The dashboard page is only accessible to authenticated users
+    # via the @login_required decorator
+    @app.route('/dashboard')
     @login_required    # User must be authenticated
-    def data_page():
+    def dashboard_page():
         # String-based templates
-        return render_template_string("""
-            {% extends "flask_user_layout.html" %}
-            {% block content %}
-                <h2>Members page</h2>
-                <p><a href={{ url_for('user.register') }}>Register</a></p>
-                <p><a href={{ url_for('user.login') }}>Sign in</a></p>
-                <p><a href={{ url_for('home_page') }}>Home page</a> (accessible to anyone)</p>
-                <p><a href={{ url_for('data_page') }}>Member page</a> (login required)</p>
-                <p><a href={{ url_for('user.logout') }}>Sign out</a></p>
-            {% endblock %}
-            """)
+        return render_template("data/dashboard.html")
 
     return app
 
 
 # Start server
-if __name__=='__main__':
+if __name__ == '__main__':
     app = create_app()
     app.run(host='0.0.0.0', port=5000, debug=True)

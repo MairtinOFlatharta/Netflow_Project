@@ -1,31 +1,43 @@
-import os
+from flask import Flask, render_template
+from flask_mongoengine import MongoEngine
+from flask_user import login_required, UserManager
 
-from flask import Flask
+from .model import User
 
 
-def create_app(test_config=None):
-    # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY='dev'
-    )
+def create_app():
+    """ Flask application factory """
 
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
+    # Setup Flask and load app.config
+    app = Flask(__name__)
 
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
+    # Config is external JSON file for now. Better than commiting keys
+    app.config.from_json('../../application.json')
 
-    # test page that prints test message
+    # Setup Flask-MongoEngine
+    db = MongoEngine(app)
+
+    # Setup Flask-User and specify the User data-model
+    user_manager = UserManager(app, db, User)
+
+    # The Home page is accessible to anyone
     @app.route('/')
-    def hello():
-        return 'Test out'
+    def home_page():
+        # String-based templates
+        return render_template("/home.html")
+
+    # The dashboard page is only accessible to authenticated users
+    # via the @login_required decorator
+    @app.route('/dashboard')
+    @login_required    # User must be authenticated
+    def dashboard_page():
+        # String-based templates
+        return render_template("data/dashboard.html")
 
     return app
+
+
+# Start server
+if __name__ == '__main__':
+    app = create_app()
+    app.run(host='0.0.0.0', port=5000, debug=True)

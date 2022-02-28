@@ -1,12 +1,30 @@
 {% extends "base.html" %}
 	{% block content %}
-		<form action="/dashboard" method="POST">
-			<input type="submit" value="Hour" name="time_range"/>
-		</form>
-		<form action="/dashboard" method="POST">
-			<input type="submit" value="Day" name="time_range"/>
-		</form>
-		<form action="/dashboard" method="POST">
-			<input type="submit" value="Week" name="time_range"/>
-		</form>
+		<div>
+			<h5>Choose granularity of data (Last hour, last day or last week)</h5>
+			<div class="row">
+				<form action="/dashboard" method="POST">
+					<input type="submit" value="Hour" name="time_range" class="btn btn-warning"/>
+				</form>
+				<form action="/dashboard" method="POST">
+					<input type="submit" value="Day" name="time_range" class="btn btn-warning"/>
+				</form>
+				<form action="/dashboard" method="POST">
+					<input type="submit" value="Week" name="time_range" class="btn btn-warning"/>
+				</form>
+			</div>
+		</div>
+		<div style="width:30%" class="row">
+			<canvas id="inBytesDstPort" width="400" height="400"></canvas>
+			<canvas id="outBytesDstPort" width="400" height="400"></canvas>
+		</div>
+	{% endblock %}
+	{% block extra_js %}
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+		<script type='text/javascript' src="{{ url_for('static', filename='js/colour_generator.js') }}"></script>
+		<script type='text/javascript' src="{{ url_for('static', filename='js/dst_port_graph.js') }}"></script>
+		<script>
+			// Call graph functions here
+			dstPortGraph({{ nfdump_data['dst_port_traffic'] | safe }});
+		</script>
 	{% endblock %}

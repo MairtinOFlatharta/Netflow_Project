@@ -43,23 +43,31 @@ def create_app():
             time_range = request.form['time_range']
             res.set_cookie('timeRange', time_range.lower())
         else:
-            res = make_response(render_template("data/dashboard.html"))
             time_range_cookie = request.cookies.get('timeRange')
             # Start of dashboard session
             if data_instance is None:
                 if time_range_cookie is None:
                     # Cookie wasn't set. Load default data within last hour
                     data_instance = Nfdump_data('hour')
-                    # Set cookie
-                    res.set_cookie('timeRange', 'hour')
                 else:
                     # Start of session but cookie was already set
                     data_instance = Nfdump_data(time_range_cookie)
             elif time_range_cookie != data_instance.time_range:
                 # Selected time range changed. Make new data set
                 data_instance = Nfdump_data(time_range_cookie)
-            # Just to test that data is being sent properly
-            res.nfdump_data = data_instance.data.head()
+
+            # Build object with netflow data and summaries
+            nfdump_data = {
+            'dst_addr_traffic': data_instance.get_dst_addr_traffic(),
+            'dst_port_traffic': data_instance.get_dst_port_traffic(),
+            'src_addr_traffic': data_instance.get_src_addr_traffic(),
+            'longest_connections': data_instance.get_longest_connections(),
+            }
+            res = make_response(render_template("data/dashboard.html", nfdump_data=nfdump_data))
+            if time_range_cookie is None:
+                # If cookie not already set, set it to 'hour'
+                res.set_cookie('timeRange', 'hour')
+
         return res
 
     return app

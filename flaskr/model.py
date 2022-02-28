@@ -21,6 +21,8 @@ class User(Document, UserMixin):
 class Nfdump_data:
 
     def __init__(self, time_range):
+        if time_range not in ('hour', 'day', 'week'):
+            raise ValueError("Invalid data time range given!")
         # TODO: Should be using pyarrow engine but returns ValueError
         self.data = pd.read_csv(f'data/nfdump/nfdump_last_{time_range}.csv',
                                 engine='c')
@@ -33,17 +35,17 @@ class Nfdump_data:
 
     def get_dst_port_traffic(self):
         # Get total in and out bytes by destination port
-        res = self.data.groupby(['dp']).sum().get(['ibyt', 'obyt'])
+        res = self.data.groupby(['dp', 'pr']).sum().get(['ibyt', 'obyt'])
         return res.to_json()
 
-    def get_src_addr_summaries(self):
+    def get_src_addr_traffic(self):
         # Get total in and out bytes by source address
         res = self.data.groupby(['sa']).sum().get(['ibyt', 'obyt'])
         return res.to_json()
 
     def get_src_port_traffic(self):
         # Get total in and out bytes by source port
-        res = self.data.groupby(['sp']).sum().get(['ibyt', 'obyt'])
+        res = self.data.groupby(['sp','pr']).sum().get(['ibyt', 'obyt'])
         return res.to_json()
 
     def get_longest_connections(self):

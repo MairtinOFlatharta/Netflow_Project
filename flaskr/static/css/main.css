@@ -1,3 +1,7 @@
 body {
-  background-color: #b0ffbe;
+  background-color: #dbca7f;
+  color: #000000;
+}
+.row {
+  display: flex;
 }

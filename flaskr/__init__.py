@@ -17,6 +17,12 @@ def create_app():
     # Config is external JSON file for now. Better than commiting keys
     app.config.from_json('../../application.json')
 
+    if app.config['LOCAL_DB']:
+        app.config['MONGODB_SETTINGS'] = {
+            'db': 'fyp',
+            'host': 'mongodb://127.0.0.1:27017/'
+        }
+
     # Setup Flask-MongoEngine
     db = MongoEngine(app)
 

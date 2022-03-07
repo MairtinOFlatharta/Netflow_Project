@@ -68,6 +68,7 @@ def create_app():
             'dst_port_traffic': data_instance.get_dst_port_traffic(),
             'src_addr_traffic': data_instance.get_src_addr_traffic(),
             'longest_connections': data_instance.get_longest_connections(),
+            'busiest_connections': data_instance.get_busiest_connections(),
             }
             res = make_response(render_template("data/dashboard.html", nfdump_data=nfdump_data))
             if time_range_cookie is None:

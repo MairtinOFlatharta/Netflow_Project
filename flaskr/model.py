@@ -49,13 +49,15 @@ class Nfdump_data:
         return res.to_json()
 
     def get_longest_connections(self):
-        # Get 50 longest connections
-        res = self.data.sort_values(['td'], ascending=False).head(50)
-        return res.to_json()
+        # Get 10 longest connections
+        res = self.data.sort_values(['td'], ascending=False).head(10)
+        return res
 
     def get_busiest_connections(self):
-        # Get 50 connections with most data transfer (both ways)
+        # Get 10 connections with most data transfer (both ways)
+        # Use a copy to avoid mutating our actual data
         data_cpy = self.data
+        # Get total data transfer of all connections
         data_cpy['byte_sums'] = data_cpy['ibyt'] + data_cpy['obyt']
-        data_cpy.sort_values(['sums'], ascending=False).head(50)
-        return data_cpy.to_json()
+        res = data_cpy.sort_values(['byte_sums'], ascending=False).head(10)
+        return res

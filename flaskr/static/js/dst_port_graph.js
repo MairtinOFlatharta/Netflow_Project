@@ -4,6 +4,8 @@ function dstPortGraph(data) {
   var out_port = Object.keys(data.obyt);
   var out_bytes = Object.values(data.obyt);
 
+  var colours = colour_generator(in_port.length);
+
   new Chart(document.getElementById("inBytesDstPort"), {
     type: 'doughnut',
     data: {
@@ -11,7 +13,7 @@ function dstPortGraph(data) {
       datasets: [
         {
           label: "Number of bytes sent",
-          backgroundColor: colour_generator(in_port.length),
+          backgroundColor: colours,
           data: in_bytes
         }
       ]
@@ -36,7 +38,7 @@ function dstPortGraph(data) {
       datasets: [
         {
           label: "Number of bytes recieved",
-          backgroundColor: colour_generator(out_port.length),
+          backgroundColor: colours,
           data: out_bytes
         }
       ]

@@ -1,7 +1,19 @@
 body {
-  background-color: #dbca7f;
+  background-color: #FFF59D;
   color: #000000;
 }
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+}
+
+td, th {
+  text-align: left;
+  padding: 8px;
+}
+
 .row {
   display: flex;
 }

@@ -21,8 +21,11 @@ class User(Document, UserMixin):
 class Nfdump_data:
 
     def __init__(self, time_range):
-        if time_range not in ('hour', 'day', 'week'):
-            raise ValueError("Invalid data time range given!")
+        if time_range is None:
+            # Set data to last hour by default
+            time_range = 'hour'
+        elif time_range not in ('hour', 'day', 'week'):
+            raise ValueError(f"Invalid data time range given!: {time_range}")
         # TODO: Should be using pyarrow engine but returns ValueError
         self.data = pd.read_csv(f'data/nfdump/nfdump_last_{time_range}.csv',
                                 engine='c')

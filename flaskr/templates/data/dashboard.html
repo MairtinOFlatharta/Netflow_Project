@@ -1,19 +1,16 @@
 {% extends "base.html" %}
 	{% block content %}
 		<div>
-			<h5>Choose granularity of data (Last hour, last day or last week)</h5>
-			<div class="row">
+			<h5>Choose granularity of data</h5>
+			<div class="btn-group" role="group">
 				<form action="/dashboard" method="POST">
-					<input type="submit" value="Hour" name="time_range" class="btn btn-warning"/>
-				</form>
-				<form action="/dashboard" method="POST">
-					<input type="submit" value="Day" name="time_range" class="btn btn-warning"/>
-				</form>
-				<form action="/dashboard" method="POST">
-					<input type="submit" value="Week" name="time_range" class="btn btn-warning"/>
+					<button type="submit" value="Hour" name="time_range" class="btn btn-warning">Last Hour</button>
+					<button type="submit" value="Day" name="time_range" class="btn btn-warning">Last Day</button>
+					<button type="submit" value="Week" name="time_range" class="btn btn-warning">Last Week</button>
 				</form>
 			</div>
 		</div>
+		<h5>Currently showing last {{ request.cookies.get('timeRange') }}'s worth of data</h5>
 		<div style="width:30%" class="row">
 			<canvas id="inBytesDstPort" width="400" height="400"></canvas>
 			<canvas id="outBytesDstPort" width="400" height="400"></canvas>

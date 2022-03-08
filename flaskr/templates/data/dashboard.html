@@ -10,11 +10,7 @@
 				</form>
 			</div>
 		</div>
-		{% if request.cookies.get('timeRange') is none %}
-			<h5>Currently showing last hours's worth of data</h5>
-		{% else %}
-			<h5>Currently showing last {{ request.cookies.get('timeRange') }}'s worth of data</h5>
-		{% endif %}
+		<h5>Currently showing last {{ request.cookies.get('timeRange') or 'hour' }}'s worth of data</h5>
 		<div style="width:30%" class="row">
 			<canvas id="inBytesDstPort" width="400" height="400"></canvas>
 			<canvas id="outBytesDstPort" width="400" height="400"></canvas>

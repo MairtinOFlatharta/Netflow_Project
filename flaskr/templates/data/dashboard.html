@@ -5,8 +5,8 @@
 		{% endblock %}
 		{% block data %}
 		<div style="width:30%" class="row">
-			<canvas id="inBytesDstPort" width="400" height="400"></canvas>
-			<canvas id="outBytesDstPort" width="400" height="400"></canvas>
+			<canvas id="inBytesCanvas" width="400" height="400"></canvas>
+			<canvas id="outBytesCanvas" width="400" height="400"></canvas>
 		</div>
 		<div>
 			<table class="table table-hover">
@@ -82,9 +82,13 @@
 	{% endblock %}
 	{% block extra_js %}
 		{{ super() }}
-		<script type='text/javascript' src="{{ url_for('static', filename='js/dst_port_graph.js') }}"></script>
+		<script type='text/javascript' src="{{ url_for('static', filename='js/bytesGraphs.js') }}"></script>
 		<script>
+			descriptions = [
+				"Bytes sent to destination ports",
+				"Bytes recieved from destination ports"
+			]
 			// Call graph functions here
-			dstPortGraph({{ nfdump_data['dst_port_traffic'] | safe }});
+			bytesGraphs({{ nfdump_data['dst_port_traffic'] | safe }}, descriptions);
 		</script>
 	{% endblock %}

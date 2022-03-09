@@ -1,15 +1,15 @@
-function dstPortGraph(data) {
-  var in_port = Object.keys(data.ibyt);
+function bytesGraphs(data, descriptions) {
+  var in_keys = Object.keys(data.ibyt);
   var in_bytes = Object.values(data.ibyt);
-  var out_port = Object.keys(data.obyt);
+  var out_keys = Object.keys(data.obyt);
   var out_bytes = Object.values(data.obyt);
 
-  var colours = colour_generator(in_port.length);
+  var colours = colour_generator(in_keys.length);
 
-  new Chart(document.getElementById("inBytesDstPort"), {
+  new Chart(document.getElementById("inBytesCanvas"), {
     type: 'doughnut',
     data: {
-      labels: in_port,
+      labels: in_keys,
       datasets: [
         {
           label: "Number of bytes sent",
@@ -26,15 +26,15 @@ function dstPortGraph(data) {
       },
       title: {
         display: true,
-        text: 'Bytes sent to destination ports'
+        text: descriptions[0]
       }
     }
   });
 
-  new Chart(document.getElementById("outBytesDstPort"), {
+  new Chart(document.getElementById("outBytesCanvas"), {
     type: 'doughnut',
     data: {
-      labels: out_port,
+      labels: out_keys,
       datasets: [
         {
           label: "Number of bytes recieved",
@@ -51,7 +51,7 @@ function dstPortGraph(data) {
       },
       title: {
         display: true,
-        text: 'Bytes recieved from destination ports'
+        text: descriptions[1]
       }
     }
   });

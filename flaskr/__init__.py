@@ -15,7 +15,7 @@ def create_app():
     app = Flask(__name__)
 
     # Config is external JSON file for now. Better than commiting keys
-    app.config.from_json('../../application.json')
+    app.config.from_json('../instance/config.json')
 
     if app.config['LOCAL_DB']:
         app.config['MONGODB_SETTINGS'] = {
@@ -60,9 +60,7 @@ def create_app():
 
             # Build object with netflow data and summaries
             nfdump_data = {
-                'dst_addr_traffic': data_instance.get_dst_addr_traffic(),
                 'dst_port_traffic': data_instance.get_dst_port_traffic(),
-                'src_addr_traffic': data_instance.get_src_addr_traffic(),
                 'longest_connections': data_instance.get_longest_connections(),
                 'busiest_connections': data_instance.get_busiest_connections(),
             }
@@ -73,6 +71,78 @@ def create_app():
                 res.set_cookie('timeRange', 'hour')
 
         return res
+
+    @app.route('/dashboard/sources', methods=['POST', 'GET'])
+    @login_required    # User must be authenticated
+    def sources_dashboard_page():
+        # Render dashboard page and submit netflow record data
+        global data_instance
+
+        if request.method == 'POST':
+            # User clicked time range button. Set cookie and reload page
+            res = make_response(redirect('/dashboard/sources'))
+            time_range = request.form['time_range']
+            res.set_cookie('timeRange', time_range.lower())
+        else:
+            time_range_cookie = request.cookies.get('timeRange')
+            # Start of dashboard session
+            if data_instance is None:
+                # Start of session but cookie was already set
+                data_instance = Nfdump_data(time_range_cookie)
+            elif time_range_cookie != data_instance.time_range:
+                # Selected time range changed. Make new data set
+                data_instance = Nfdump_data(time_range_cookie)
+
+            # Build object with netflow data and summaries
+            nfdump_data = {
+                'src_addr_traffic': data_instance.get_src_addr_traffic(),
+                'longest_connections': data_instance.get_longest_connections(),
+                'busiest_connections': data_instance.get_busiest_connections(),
+            }
+            res = make_response(render_template("data/sources_dashboard.html",
+                                                nfdump_data=nfdump_data))
+            if time_range_cookie is None:
+                # If cookie not already set, set it to 'hour'
+                res.set_cookie('timeRange', 'hour')
+
+        return res
+
+    @app.route('/dashboard/destinations', methods=['POST', 'GET'])
+    @login_required    # User must be authenticated
+    def destinations_dashboard_page():
+        # Render dashboard page and submit netflow record data
+        global data_instance
+
+        if request.method == 'POST':
+            # User clicked time range button. Set cookie and reload page
+            res = make_response(redirect('/dashboard/destinations'))
+            time_range = request.form['time_range']
+            res.set_cookie('timeRange', time_range.lower())
+        else:
+            time_range_cookie = request.cookies.get('timeRange')
+            # Start of dashboard session
+            if data_instance is None:
+                # Start of session but cookie was already set
+                data_instance = Nfdump_data(time_range_cookie)
+            elif time_range_cookie != data_instance.time_range:
+                # Selected time range changed. Make new data set
+                data_instance = Nfdump_data(time_range_cookie)
+
+            # Build object with netflow data and summaries
+            nfdump_data = {
+                'dst_addr_traffic': data_instance.get_dst_addr_traffic(),
+                'longest_connections': data_instance.get_longest_connections(),
+                'busiest_connections': data_instance.get_busiest_connections(),
+            }
+            res = make_response(render_template("data/destinations_dashboard.html",
+                                                nfdump_data=nfdump_data))
+            if time_range_cookie is None:
+                # If cookie not already set, set it to 'hour'
+                res.set_cookie('timeRange', 'hour')
+
+        return res
+
+
 
     return app
 

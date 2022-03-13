@@ -125,6 +125,7 @@ venv.bak/
 
 # Local MongoDB data
 local/
+data/
 
 # Spyder project settings
 .spyderproject

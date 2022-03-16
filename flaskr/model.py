@@ -26,9 +26,9 @@ class Nfdump_data:
             time_range = 'hour'
         elif time_range not in ('hour', 'day', 'week'):
             raise ValueError(f"Invalid data time range given!: {time_range}")
-        # TODO: Should be using pyarrow engine but returns ValueError
+        # Read in data from CSV with matching time range
         self.data = pd.read_csv(f'data/nfdump/nfdump_last_{time_range}.csv',
-                                engine='c')
+                                engine='pyarrow')
         self.time_range = time_range
 
     def get_dst_addr_traffic(self):

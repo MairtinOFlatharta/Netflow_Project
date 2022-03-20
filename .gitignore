@@ -125,7 +125,8 @@ venv.bak/
 
 # Local MongoDB data
 local/
-data/
+data/nfdump
+data/as_info
 
 # Spyder project settings
 .spyderproject

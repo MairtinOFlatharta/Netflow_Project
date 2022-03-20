@@ -1,12 +1,12 @@
 {% extends "data/dashboard_base.html" %}
 	{% block content %}
-		{% block time_range_buttons %}
-			{{ super() }}
-		{% endblock %}
-		{% block data %}
-		<div id="graphs" style="width:30%" class="row">
-			<canvas id="inBytesCanvas" width="400" height="400"></canvas>
-			<canvas id="outBytesCanvas" width="400" height="400"></canvas>
+	{% block time_range_buttons %}
+		{{ super() }}
+	{% endblock %}
+	{% block data %}
+	<div id="graphs" style="width:30%" class="row">
+		<canvas id="inBytesCanvas" width="400" height="400"></canvas>
+		<canvas id="outBytesCanvas" width="400" height="400"></canvas>
 		</div>
 		<div>
 			<table id="longest-connections" class="table table-hover">
@@ -85,10 +85,10 @@
 		<script type='text/javascript' src="{{ url_for('static', filename='js/bytesGraphs.js') }}"></script>
 		<script>
 			descriptions = [
-				"Bytes sent to destination ports",
-				"Bytes recieved from destination ports"
-			]
-			// Call graph functions here
-			bytesGraphs({{ nfdump_data['dst_port_traffic'] | safe }}, descriptions);
+					"Bytes sent by source ports",
+					"Bytes recieved by source ports"
+				]
+				// Call graph functions here
+				bytesGraphs({{ nfdump_data['dst_port_traffic'] | safe }}, descriptions);
 		</script>
 	{% endblock %}

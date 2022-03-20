@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 	{% block content %}
+		<a id="top"></a>
 		{% block time_range_buttons %}
 		<nav class="navbar navbar-inverse navbar-fixed-bottom">
 			<div class="container-fluid">
@@ -7,13 +8,26 @@
 					<li><a href={{ url_for('sources_dashboard_page') }}>Sources</a></li>
 					<li><a href={{ url_for('destinations_dashboard_page') }}>Destinations</a></li>
 					<li><a href={{ url_for('dashboard_page') }}>Ports</a></li>
+					<li class="dropup">
+						<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Sections
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+							<li><a href="#graphs">Graphs</a></li>
+							<li><a href="#longest-connections">Longest Connections</a></li>
+							<li><a href="#data-intensive-connections">Most Active Connections</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#top">Top</a></li>
+						</ul>
+					</li>
 				</ul>
-					<form method="POST" class="navbar-form navbar-right">
-						<p class="navbar-text">Data time-range:</p>
-						<button type="submit" value="Hour" name="time_range" class="btn btn-warning navbar-btn">Last Hour</button>
-						<button type="submit" value="Day" name="time_range" class="btn btn-warning navbar-btn">Last Day</button>
-						<button type="submit" value="Week" name="time_range" class="btn btn-warning navbar-btn">Last Week</button>
-					</form>
+				<form method="POST" class="navbar-form navbar-right">
+					<p class="navbar-text">Data time-range:</p>
+					<button type="submit" value="Hour" name="time_range" class="btn btn-warning navbar-btn">Last Hour</button>
+					<button type="submit" value="Day" name="time_range" class="btn btn-warning navbar-btn">Last Day</button>
+					<button type="submit" value="Week" name="time_range" class="btn btn-warning navbar-btn">Last Week</button>
+				</form>
 			</div>
 		</nav>
 		<h5>Currently showing last {{ request.cookies.get('timeRange') or 'hour' }}'s worth of data</h5>

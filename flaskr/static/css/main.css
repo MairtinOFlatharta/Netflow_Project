@@ -17,3 +17,16 @@ td, th {
 .row {
   display: flex;
 }
+
+.flex-container {
+  max-width: 100%;
+  position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.flex-item {
+  width: 60%;
+}

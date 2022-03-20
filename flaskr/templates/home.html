@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 	{% block content %}
-		<h2>Home page</h2>
+		<div class="flex-container">
 		{% if call_or_get(current_user.is_authenticated) %}
-			<p><a href={{ url_for('dashboard_page') }}>Dashboard page</a></p>
-			<p><a href={{ url_for('user.logout') }}>Sign out</a></p>
+			<button type="button" class="btn btn-block flex-item" onclick="location.href = '{{ url_for('dashboard_page') }}'" role="button">Dashboard page</button>
+			<button type="button" class="btn btn-block flex-item" onclick="location.href = '{{ url_for('user.logout') }}'" role="button">Sign out</button>
 		{% else %}
-			<p><a href={{ url_for('user.register') }}>Register</a></p>
-			<p><a href={{ url_for('user.login') }}>Sign in</a></p>
+			<button type="button" class="btn btn-block flex-item" onclick="location.href = '{{ url_for('user.register') }}'" role="button">Register</button>
+			<button type="button" class="btn btn-block flex-item" onclick="location.href = '{{ url_for('user.login') }}'" role="button">Sign in</button>
 		{% endif %}
+		</div>
 	{% endblock %}

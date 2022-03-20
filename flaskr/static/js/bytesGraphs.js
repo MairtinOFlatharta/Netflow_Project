@@ -1,10 +1,11 @@
-function bytesGraphs(data, descriptions) {
-  var in_keys = Object.keys(data.ibyt);
-  var in_bytes = Object.values(data.ibyt);
-  var out_keys = Object.keys(data.obyt);
-  var out_bytes = Object.values(data.obyt);
+function bytesGraphs(in_data, out_data, descriptions) {
+  var in_keys = Object.keys(in_data);
+  var in_bytes = Object.values(in_data);
+  var out_keys = Object.keys(out_data);
+  var out_bytes = Object.values(out_data);
 
-  var colours = colour_generator(in_keys.length);
+  var in_colours = colour_generator(in_keys.length);
+  var out_colours = colour_generator(out_keys.length);
 
   new Chart(document.getElementById("inBytesCanvas"), {
     type: 'doughnut',
@@ -13,7 +14,7 @@ function bytesGraphs(data, descriptions) {
       datasets: [
         {
           label: "Number of bytes sent",
-          backgroundColor: colours,
+          backgroundColor: in_colours,
           data: in_bytes
         }
       ]
@@ -26,7 +27,7 @@ function bytesGraphs(data, descriptions) {
       },
       title: {
         display: true,
-        text: descriptions[0]
+        text: "Top " + in_keys.length + " " + descriptions[0]
       }
     }
   });
@@ -38,7 +39,7 @@ function bytesGraphs(data, descriptions) {
       datasets: [
         {
           label: "Number of bytes recieved",
-          backgroundColor: colours,
+          backgroundColor: out_colours,
           data: out_bytes
         }
       ]
@@ -51,7 +52,7 @@ function bytesGraphs(data, descriptions) {
       },
       title: {
         display: true,
-        text: descriptions[1]
+        text: "Top " + out_keys.length + " " + descriptions[1]
       }
     }
   });

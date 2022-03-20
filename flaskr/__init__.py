@@ -59,8 +59,10 @@ def create_app():
                 data_instance = Nfdump_data(time_range_cookie)
 
             # Build object with netflow data and summaries
+            port_data = data_instance.get_dst_port_traffic()
             nfdump_data = {
-                'dst_port_traffic': data_instance.get_dst_port_traffic(),
+                'in_dst_port_traffic': port_data[0],
+                'out_dst_port_traffic': port_data[1],
                 'longest_connections': data_instance.get_longest_connections(),
                 'busiest_connections': data_instance.get_busiest_connections(),
             }
@@ -94,8 +96,10 @@ def create_app():
                 data_instance = Nfdump_data(time_range_cookie)
 
             # Build object with netflow data and summaries
+            src_data = data_instance.get_src_addr_traffic()
             nfdump_data = {
-                'src_addr_traffic': data_instance.get_src_addr_traffic(),
+                'in_src_addr_traffic': src_data[0],
+                'out_src_addr_traffic': src_data[1],
                 'longest_connections': data_instance.get_longest_connections(),
                 'busiest_connections': data_instance.get_busiest_connections(),
             }
@@ -129,8 +133,10 @@ def create_app():
                 data_instance = Nfdump_data(time_range_cookie)
 
             # Build object with netflow data and summaries
+            dst_data = data_instance.get_dst_addr_traffic()
             nfdump_data = {
-                'dst_addr_traffic': data_instance.get_dst_addr_traffic(),
+                'in_dst_addr_traffic': dst_data[0],
+                'out_dst_addr_traffic': dst_data[1],
                 'longest_connections': data_instance.get_longest_connections(),
                 'busiest_connections': data_instance.get_busiest_connections(),
             }

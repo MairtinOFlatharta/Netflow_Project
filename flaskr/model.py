@@ -32,24 +32,60 @@ class Nfdump_data:
         self.time_range = time_range
 
     def get_dst_addr_traffic(self):
-        # Get total in and out bytes by destination address
-        res = self.data.groupby(['da']).sum().get(['ibyt', 'obyt'])
-        return res.to_json()
+        # Get top 10 destination addresses based on in_bytes
+        top_in = (self.data.groupby(['da']).sum()
+                  .sort_values(by='ibyt', ascending=False).head(10))
+        # Remove any records where in_bytes = 0
+        top_in = top_in[top_in.ibyt != 0].get('ibyt')
+
+        # Get top 10 destination addresses based on out_bytes
+        top_out = (self.data.groupby(['da']).sum()
+                   .sort_values(by='obyt', ascending=False).head(10))
+        # Remove any records where out_bytes = 0
+        top_out = top_out[top_out.obyt != 0].get('obyt')
+        return (top_in.to_json(), top_out.to_json())
 
     def get_dst_port_traffic(self):
-        # Get total in and out bytes by destination port
-        res = self.data.groupby(['dp', 'pr']).sum().get(['ibyt', 'obyt'])
-        return res.to_json()
+        # Get top 10 destinations ports based on in_bytes
+        top_in = (self.data.groupby(['dp', 'pr']).sum()
+                  .sort_values(by='ibyt', ascending=False).head(10))
+        # Remove any records where in_bytes = 0
+        top_in = top_in[top_in.ibyt != 0].get('ibyt')
+
+        # Get top 10 destination addresses based on out_bytes
+        top_out = (self.data.groupby(['dp', 'pr']).sum()
+                   .sort_values(by='obyt', ascending=False).head(10))
+        # Remove any records where out_bytes = 0
+        top_out = top_out[top_out.obyt != 0].get('obyt')
+        return (top_in.to_json(), top_out.to_json())
 
     def get_src_addr_traffic(self):
-        # Get total in and out bytes by source address
-        res = self.data.groupby(['sa']).sum().get(['ibyt', 'obyt'])
-        return res.to_json()
+        # Get top 10 source addresses based on in_bytes
+        top_in = (self.data.groupby(['sa']).sum()
+                  .sort_values(by='ibyt', ascending=False).head(10))
+        # Remove any records where in_bytes = 0
+        top_in = top_in[top_in.ibyt != 0].get('ibyt')
+
+        # Get top 10 source addresses based on out_bytes
+        top_out = (self.data.groupby(['sa']).sum()
+                   .sort_values(by='obyt', ascending=False).head(10))
+        # Remove any records where out_bytes = 0
+        top_out = top_out[top_out.obyt != 0].get('obyt')
+        return (top_in.to_json(), top_out.to_json())
 
     def get_src_port_traffic(self):
-        # Get total in and out bytes by source port
-        res = self.data.groupby(['sp','pr']).sum().get(['ibyt', 'obyt'])
-        return res.to_json()
+        # Get top 10 source ports based on in_bytes
+        top_in = (self.data.groupby(['sp', 'pr']).sum()
+                  .sort_values(by='ibyt', ascending=False).head(10))
+        # Remove any records where in_bytes = 0
+        top_in = top_in[top_in.ibyt != 0].get('ibyt')
+
+        # Get top 10 source ports based on out_bytes
+        top_out = (self.data.groupby(['sp', 'pr'])
+                   .sum().sort_values(by='obyt', ascending=False).head(10))
+        # Remove any records where out_bytes = 0
+        top_out = top_out[top_out.obyt != 0].get('obyt')
+        return (top_in.to_json(), top_out.to_json())
 
     def get_longest_connections(self):
         # Get 10 longest connections

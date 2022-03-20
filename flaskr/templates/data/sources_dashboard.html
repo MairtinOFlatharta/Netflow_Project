@@ -85,10 +85,10 @@
 		<script type='text/javascript' src="{{ url_for('static', filename='js/bytesGraphs.js') }}"></script>
 		<script>
 			descriptions = [
-				"Bytes sent by source addresses",
-				"Bytes recieved by source addresses"
+				"source addresses based on in bytes",
+				"source addresses based on out bytes"
 			]
 			// Call graph functions here
-			bytesGraphs({{ nfdump_data['src_addr_traffic'] | safe }}, descriptions);
+			bytesGraphs({{ nfdump_data['in_src_addr_traffic'] | safe }}, {{ nfdump_data['out_src_addr_traffic'] | safe }}, descriptions);
 		</script>
 	{% endblock %}

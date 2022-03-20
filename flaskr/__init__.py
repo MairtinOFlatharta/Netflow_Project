@@ -111,6 +111,43 @@ def create_app():
 
         return res
 
+    @app.route('/dashboard/source-ports', methods=['POST', 'GET'])
+    @login_required    # User must be authenticated
+    def source_ports_dashboard_page():
+        # Render dashboard page and submit netflow record data
+        global data_instance
+
+        if request.method == 'POST':
+            # User clicked time range button. Set cookie and reload page
+            res = make_response(redirect('/dashboard/source-ports'))
+            time_range = request.form['time_range']
+            res.set_cookie('timeRange', time_range.lower())
+        else:
+            time_range_cookie = request.cookies.get('timeRange')
+            # Start of dashboard session
+            if data_instance is None:
+                # Start of session but cookie was already set
+                data_instance = Nfdump_data(time_range_cookie)
+            elif time_range_cookie != data_instance.time_range:
+                # Selected time range changed. Make new data set
+                data_instance = Nfdump_data(time_range_cookie)
+
+            # Build object with netflow data and summaries
+            port_data = data_instance.get_src_port_traffic()
+            nfdump_data = {
+                'in_src_port_traffic': port_data[0],
+                'out_src_port_traffic': port_data[1],
+                'longest_connections': data_instance.get_longest_connections(),
+                'busiest_connections': data_instance.get_busiest_connections(),
+            }
+            res = make_response(render_template("data/ports_dashboard.html",
+                                                nfdump_data=nfdump_data))
+            if time_range_cookie is None:
+                # If cookie not already set, set it to 'hour'
+                res.set_cookie('timeRange', 'hour')
+
+        return res
+
     @app.route('/dashboard/destinations', methods=['POST', 'GET'])
     @login_required    # User must be authenticated
     def destinations_dashboard_page():

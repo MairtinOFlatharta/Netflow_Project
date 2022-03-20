@@ -35,17 +35,23 @@ def create_app():
         # String-based templates
         return render_template("/home.html")
 
-    # The dashboard page is only accessible to authenticated users
+    @app.route('/dashboard', strict_slashes=False)
+    @login_required
+    def dashboard_redirect():
+        # Redirect to destination ports by default
+        return redirect('/dashboard/destination-ports')
+
+    # The dashboard pages are only accessible to authenticated users
     # via the @login_required decorator
-    @app.route('/dashboard', methods=['POST', 'GET'])
+    @app.route('/dashboard/destination-ports', methods=['POST', 'GET'])
     @login_required    # User must be authenticated
-    def dashboard_page():
+    def destination_ports_dashboard_page():
         # Render dashboard page and submit netflow record data
         global data_instance
 
         if request.method == 'POST':
             # User clicked time range button. Set cookie and reload page
-            res = make_response(redirect('/dashboard'))
+            res = make_response(redirect('/dashboard/destination-ports'))
             time_range = request.form['time_range']
             res.set_cookie('timeRange', time_range.lower())
         else:
@@ -66,7 +72,7 @@ def create_app():
                 'longest_connections': data_instance.get_longest_connections(),
                 'busiest_connections': data_instance.get_busiest_connections(),
             }
-            res = make_response(render_template("data/dashboard.html",
+            res = make_response(render_template("data/dst_ports_dashboard.html",
                                                 nfdump_data=nfdump_data))
             if time_range_cookie is None:
                 # If cookie not already set, set it to 'hour'
@@ -140,7 +146,7 @@ def create_app():
                 'longest_connections': data_instance.get_longest_connections(),
                 'busiest_connections': data_instance.get_busiest_connections(),
             }
-            res = make_response(render_template("data/ports_dashboard.html",
+            res = make_response(render_template("data/src_ports_dashboard.html",
                                                 nfdump_data=nfdump_data))
             if time_range_cookie is None:
                 # If cookie not already set, set it to 'hour'

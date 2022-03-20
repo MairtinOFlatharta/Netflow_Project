@@ -2,7 +2,7 @@
 	{% block content %}
 		<div class="flex-container">
 		{% if call_or_get(current_user.is_authenticated) %}
-			<button type="button" class="btn btn-block flex-item" onclick="location.href = '{{ url_for('dashboard_page') }}'" role="button">Dashboard page</button>
+			<button type="button" class="btn btn-block flex-item" onclick="location.href = '{{ url_for('destination_ports_dashboard_page') }}'" role="button">Dashboard page</button>
 			<button type="button" class="btn btn-block flex-item" onclick="location.href = '{{ url_for('user.logout') }}'" role="button">Sign out</button>
 		{% else %}
 			<button type="button" class="btn btn-block flex-item" onclick="location.href = '{{ url_for('user.register') }}'" role="button">Register</button>

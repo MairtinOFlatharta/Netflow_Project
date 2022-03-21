@@ -78,6 +78,45 @@
 				</tbody>
 			</table>
 		</div>
+		<div id="port_alert_connections">
+			{% if nfdump_data['port_alert_connections'] is not none and nfdump_data['port_alert_connections']|length%}
+				<table id="port-alert-connections" class="table table-hover">
+					<thead>
+						<tr>
+							<th colspan="9">Connections with monitored ports</th>
+						</tr>
+						<tr>
+							<th>Connection start</th>
+							<th>Connection end</th>
+							<th>Source</th>
+							<th>Source Port</th>
+							<th>Destination</th>
+							<th>Destination port</th>
+							<th>Protocol</th>
+							<th>Bytes sent</th>
+							<th>Bytes recieved</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for index, row in nfdump_data['port_alert_connections'].iterrows() %}
+							<tr>
+								<td>{{ row['ts'] -}}</td>
+								<td>{{ row['te'] -}}</td>
+								<td>{{ row['sa'] -}}</td>
+								<td>{{ row['sp'] -}}</td>
+								<td>{{ row['da'] -}}</td>
+								<td>{{ row['dp'] -}}</td>
+								<td>{{ row['pr'] -}}</td>
+								<td>{{ row['ibyt'] -}}</td>
+								<td>{{ row['obyt'] -}}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				{% else %}
+					<h3><b>No records with monitored ports were found!</b></h3>
+				{% endif %}
+			</div>
 		{% endblock %}
 	{% endblock %}
 	{% block extra_js %}

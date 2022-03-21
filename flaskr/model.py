@@ -1,6 +1,7 @@
 from flask_user import UserMixin
 import pandas as pd
 from mongoengine import Document, BooleanField, StringField, ListField
+from json import loads
 
 
 class User(Document, UserMixin):
@@ -99,4 +100,17 @@ class Nfdump_data:
         # Get total data transfer of all connections
         data_cpy['byte_sums'] = data_cpy['ibyt'] + data_cpy['obyt']
         res = data_cpy.sort_values(['byte_sums'], ascending=False).head(10)
+        return res
+
+    def get_connections_with_matching_port(self, ports):
+        res = None
+        if ports is None or loads(ports) is None:
+            return
+        ports = loads(ports)
+        for proto, port in ports:
+            # For each protocol and port number passed, find all records
+            # with matching values
+            res = pd.concat([res,
+                             self.data.loc[(self.data['pr'] == proto) &
+                                           (self.data['dp'] == port)]])
         return res

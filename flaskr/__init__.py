@@ -19,10 +19,7 @@ def create_app():
     app.config.from_json('../instance/config.json')
 
     if app.config['LOCAL_DB']:
-        app.config['MONGODB_SETTINGS'] = {
-            'db': 'fyp',
-            'host': 'mongodb://127.0.0.1:27017/'
-        }
+        app.config['MONGODB_SETTINGS']['host'] = 'mongodb://127.0.0.1:27017/'
 
     # Setup Flask-MongoEngine
     db = MongoEngine(app)
@@ -73,10 +70,14 @@ def create_app():
                 'out_dst_port_traffic': port_data[1],
                 'longest_connections': data_instance.get_longest_connections(),
                 'busiest_connections': data_instance.get_busiest_connections(),
-                'port_alert_connections': data_instance.get_connections_with_matching_port(monitored_ports_cookie),
+                'port_alert_connections':
+                    data_instance
+                    .get_connections_with_matching_port(
+                        monitored_ports_cookie),
             }
-            res = make_response(render_template("data/dst_ports_dashboard.html",
-                                                nfdump_data=nfdump_data))
+            res = make_response(
+                render_template("data/dst_ports_dashboard.html",
+                                nfdump_data=nfdump_data))
             if time_range_cookie is None:
                 # If cookie not already set, set it to 'hour'
                 res.set_cookie('timeRange', 'hour')
@@ -112,7 +113,10 @@ def create_app():
                 'out_src_addr_traffic': src_data[1],
                 'longest_connections': data_instance.get_longest_connections(),
                 'busiest_connections': data_instance.get_busiest_connections(),
-                'port_alert_connections': data_instance.get_connections_with_matching_port(monitored_ports_cookie),
+                'port_alert_connections':
+                    data_instance
+                    .get_connections_with_matching_port(
+                        monitored_ports_cookie),
             }
             res = make_response(render_template("data/sources_dashboard.html",
                                                 nfdump_data=nfdump_data))
@@ -151,10 +155,14 @@ def create_app():
                 'out_src_port_traffic': port_data[1],
                 'longest_connections': data_instance.get_longest_connections(),
                 'busiest_connections': data_instance.get_busiest_connections(),
-                'port_alert_connections': data_instance.get_connections_with_matching_port(monitored_ports_cookie),
+                'port_alert_connections':
+                    data_instance
+                    .get_connections_with_matching_port(
+                        monitored_ports_cookie),
             }
-            res = make_response(render_template("data/src_ports_dashboard.html",
-                                                nfdump_data=nfdump_data))
+            res = make_response(
+                render_template("data/src_ports_dashboard.html",
+                                nfdump_data=nfdump_data))
             if time_range_cookie is None:
                 # If cookie not already set, set it to 'hour'
                 res.set_cookie('timeRange', 'hour')
@@ -190,10 +198,14 @@ def create_app():
                 'out_dst_addr_traffic': dst_data[1],
                 'longest_connections': data_instance.get_longest_connections(),
                 'busiest_connections': data_instance.get_busiest_connections(),
-                'port_alert_connections': data_instance.get_connections_with_matching_port(monitored_ports_cookie),
+                'port_alert_connections':
+                    data_instance
+                    .get_connections_with_matching_port(
+                        monitored_ports_cookie),
             }
-            res = make_response(render_template("data/destinations_dashboard.html",
-                                                nfdump_data=nfdump_data))
+            res = make_response(
+                render_template("data/destinations_dashboard.html",
+                                nfdump_data=nfdump_data))
             if time_range_cookie is None:
                 # If cookie not already set, set it to 'hour'
                 res.set_cookie('timeRange', 'hour')

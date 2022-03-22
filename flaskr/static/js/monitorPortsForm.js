@@ -1,4 +1,4 @@
-var headers = ["#", "Communication Protocol", "Port Number"];
+var headers = ["", "Communication Protocol", "Port Number"];
 var portTable = document.getElementById("portTable");
 var tbody = portTable.getElementsByTagName('tbody')[0];
 var buttonHTML = '<td><input type="button" value="Remove" onclick="deleteRow(this)" class="btn btn-warning" /></td>';

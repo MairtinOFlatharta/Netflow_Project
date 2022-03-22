@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+	{% block content %}
+		<p><input type="button" id="addRow" value="Add New Row" onclick="addRow();" class="btn btn-warning" /></p>
+		<div id="portDiv">
+			<table id="portTable" class="table table-hover">
+				<thead>
+				<tr>
+					<th>#</th>
+					<th>Connection Protocol</th>
+					<th>Port Number</th>
+				</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<form name="portForm" method="POST" onsubmit="portSubmit();">
+			<input type="hidden" name="ports" />
+			<p><input type="submit" class="btn btn-warning" /></p>
+		</form>
+	{% endblock %}
+	{% block extra_js %}
+		<script type='text/javascript' src="{{ url_for('static', filename='js/monitorPortsForm.js') }}"></script>
+	{% endblock %}

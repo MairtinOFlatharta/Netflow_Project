@@ -200,6 +200,15 @@ def create_app():
         return res
 
 
+    @app.route('/monitor-ports', methods=['POST', 'GET'])
+    @login_required
+    def monitor_ports():
+        if request.method == 'POST':
+            res = make_response(redirect('/dashboard/destination-ports'))
+            res.set_cookie('monitoredPorts', request.form['ports'])
+        else:
+            res = make_response(render_template('data/monitor_form.html'))
+        return res
 
     return app
 

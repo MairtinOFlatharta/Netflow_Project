@@ -1,6 +1,7 @@
 from flask import Flask, render_template, make_response, request, redirect
 from flask_mongoengine import MongoEngine
 from flask_user import login_required, UserManager
+from json import loads
 
 from .model import User, Nfdump_data
 
@@ -199,7 +200,6 @@ def create_app():
 
         return res
 
-
     @app.route('/monitor-ports', methods=['POST', 'GET'])
     @login_required
     def monitor_ports():
@@ -207,7 +207,10 @@ def create_app():
             res = make_response(redirect('/dashboard/destination-ports'))
             res.set_cookie('monitoredPorts', request.form['ports'])
         else:
-            res = make_response(render_template('data/monitor_form.html'))
+            res = make_response(
+                      render_template('data/monitor_form.html',
+                                      monitored_ports=loads(
+                                       request.cookies.get('monitoredPorts'))))
         return res
 
     return app

@@ -1,7 +1,7 @@
 var headers = ["#", "Communication Protocol", "Port Number"];
 var portTable = document.getElementById("portTable");
 var tbody = portTable.getElementsByTagName('tbody')[0];
-var buttonHTML = '<td><input type="button" value="Remove" onclick="deleteRow(this)" class="btn btn-warning"></td>';
+var buttonHTML = '<td><input type="button" value="Remove" onclick="deleteRow(this)" class="btn btn-warning" /></td>';
 var dropdownSelectHTML = `<td>
                             <select name="portOptions">
                               <option value="TCP">TCP</option>
@@ -10,7 +10,7 @@ var dropdownSelectHTML = `<td>
                               <option value="IGMP">IGMP</option>
                             </select>
                           </td>`;
-var inputHTML = '<td><input type="number" class="form-control"></td>';
+var inputHTML = '<td><input type="number" class="form-control" /></td>';
 
 function addRow(){
   // Get number of rows

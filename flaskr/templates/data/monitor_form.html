@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 	{% block content %}
+		<nav class="navbar navbar-inverse navbar-fixed-bottom">
+			<div class="container-fluid">
+				<ul class="nav navbar-nav">
+					<li><a href={{ url_for('sources_dashboard_page') }}>Sources</a></li>
+					<li><a href={{ url_for('source_ports_dashboard_page') }}>Source Ports</a></li>
+					<li><a href={{ url_for('destinations_dashboard_page') }}>Destinations</a></li>
+					<li><a href={{ url_for('destination_ports_dashboard_page') }}>Destination Ports</a></li>
+					<li><a href={{ url_for('monitor_ports') }}>Monitor Ports</a></li>
+				</ul>
+			</div>
+		</nav>
 		<p><input type="button" id="addRow" value="Add New Row" onclick="addRow();" class="btn btn-warning" /></p>
 		<div id="portDiv">
 			<table id="portTable" class="table table-hover">

@@ -3,6 +3,7 @@ import json
 import os
 import binascii
 import errno
+import subprocess
 
 
 def main():
@@ -24,6 +25,33 @@ def main():
         # Generate empty CSV files with above names
         with open(os.path.join(data_path, f), 'w+'):
             pass
+
+    print('Creating BGP Autonomous System data directories...')
+    asn_path = 'data/as_info/'
+    # Make directories for BGP ASN data
+    try:
+        os.makedirs(asn_path)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
+    try:
+        os.makedirs(asn_path + 'as_names/')
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
+    try:
+        os.makedirs(asn_path + 'ipasn/')
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
+    try:
+        os.makedirs(asn_path + 'rib/')
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
 
     key = input('Enter application secret key (Press enter to generate 64 '
                 'char hex key): ')
@@ -64,6 +92,12 @@ def main():
     with open('instance/config.json', 'w+') as f:
         # Dump dictionary to instance/config.json
         json.dump(config_dict, f, indent=4)
+
+    bgp_option = input('Download BGP Autonomous System info? [Y/N]: ')
+    if bgp_option.lower() == 'y':
+        subprocess.call(['sh', './scripts/get_bgp_data.sh'])
+    else:
+        print('Skipping BGP data download...')
 
     print('Setup done!')
 

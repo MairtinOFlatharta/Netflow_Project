@@ -10,7 +10,7 @@ var dropdownSelectHTML = `<td>
                               <option value="IGMP">IGMP</option>
                             </select>
                           </td>`;
-var inputHTML = '<td><input type="number" class="form-control" /></td>';
+var inputHTML = '<td><input type="number" value="0" class="form-control" /></td>';
 
 function addRow(){
   // Get number of rows

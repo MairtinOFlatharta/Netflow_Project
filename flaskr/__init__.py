@@ -219,10 +219,15 @@ def create_app():
             res = make_response(redirect('/dashboard/destination-ports'))
             res.set_cookie('monitoredPorts', request.form['ports'])
         else:
+            monitored = request.cookies.get('monitoredPorts')
+            if monitored is None:
+                monitored = []
+            else:
+                monitored = loads(monitored)
+
             res = make_response(
                       render_template('data/monitor_form.html',
-                                      monitored_ports=loads(
-                                       request.cookies.get('monitoredPorts'))))
+                                      monitored_ports=monitored))
         return res
 
     return app

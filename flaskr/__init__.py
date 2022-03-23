@@ -1,7 +1,7 @@
 from flask import Flask, render_template, make_response, request, redirect
 from flask_mongoengine import MongoEngine
 from flask_user import login_required, UserManager
-from json import loads
+from json import loads, dumps
 
 from .model import User, Nfdump_data
 
@@ -217,9 +217,19 @@ def create_app():
     def monitor_ports():
         if request.method == 'POST':
             res = make_response(redirect('/dashboard/destination-ports'))
-            res.set_cookie('monitoredPorts', request.form['ports'])
+
+            # Convert all lists in form to tuples because lists are not
+            # hashable
+            monitored = [tuple(port) for port in loads(request.form['ports'])]
+
+            # Remove all duplicate ports inside of monitored
+            monitored = list(dict.fromkeys(monitored))
+
+            res.set_cookie('monitoredPorts', dumps(monitored))
         else:
             monitored = request.cookies.get('monitoredPorts')
+
+            # Nothing submitted
             if monitored is None:
                 monitored = []
             else:

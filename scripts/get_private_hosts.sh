@@ -8,3 +8,6 @@ cat /etc/hosts | awk '/^1/ {print}' | tr '\t' ',' >> ../data/device_info/hosts/k
 
 # Append machine hostname and IP address to CSV
 echo "$(hostname -I | awk '{print $1}'),$(hostname)" | tr -d ' ' >> ../data/device_info/hosts/known_hosts.csv
+
+# Append machine DNS Nameserver address to CSV
+echo "$(cat /etc/resolv.conf | awk '/nameserver/ {print $2}'),DNS Nameserver" >> ../data/device_info/hosts/known_hosts.csv

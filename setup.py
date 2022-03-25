@@ -53,6 +53,21 @@ def main():
         if e.errno != errno.EEXIST:
             raise
 
+    print('Creating ARP and Hostname directories...')
+    device_path = 'data/device_info/'
+    # Make directories for ARP Manufacturer and Hostname data
+    try:
+        os.makedirs(device_path + 'arp/')
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
+    try:
+        os.makedirs(device_path + 'hosts/')
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
+
     key = input('Enter application secret key (Press enter to generate 64 '
                 'char hex key): ')
     if key == '':

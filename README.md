@@ -37,6 +37,7 @@ The app is currently being tested while using softflowd as a network probe and u
 * [softflowd](https://github.com/irino/softflowd)
 * [nfdump](https://github.com/phaag/nfdump)
 * [Flake8](https://flake8.pycqa.org/en/latest/)
+* [arp-scan](https://github.com/royhills/arp-scan)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

@@ -127,6 +127,7 @@ venv.bak/
 local/
 data/nfdump
 data/as_info
+data/device_info
 
 # Spyder project settings
 .spyderproject

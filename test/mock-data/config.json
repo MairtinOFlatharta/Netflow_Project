@@ -1,0 +1,16 @@
+{
+	"SECRET_KEY": "1149072426dccfedad6d36414f332b91674a7b75c0fb59fb83b66e22ec18e345e048ce2ec16bcb02b28f7a243a908a0aaa3b890e18d2cd51302179eabf186152",
+	"LOCAL_DB": true,
+	"MONGODB_SETTINGS": {
+		"db": "testing",
+		"host": ""
+	},
+	"USER_APP_NAME": "Netflow Monitoring Test",
+	"USER_COPYRIGHT_YEAR": 1970,
+	"USER_CORPORATION_NAME": "Test Corp.",
+	"USER_ENABLE_EMAIL": false,
+	"USER_ENABLE_USERNAME": true,
+	"USER_REQUIRE_RETYPE_PASSWORD": false,
+	"USER_ENABLE_REGISTER": true,
+	"USER_AUTO_LOGIN_AFTER_REGISTER": false
+}

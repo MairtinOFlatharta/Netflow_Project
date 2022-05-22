@@ -18,6 +18,7 @@
         </li>
       </ul>
     </li>
+    <li><a href="#web-app-screenshots">Web App Screenshots</a></li>
     <li>
       <a href="#setup">Setup</a>
       <ul>
@@ -66,6 +67,13 @@ The app is currently being tested while using softflowd as a network probe and u
 * [setuptools](https://pypi.org/project/setuptools/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- WEB APP SCREENSHOTS -->
+## Web App Screenshots
+![Dashboard Page](https://user-images.githubusercontent.com/46865705/169703768-b613e1ba-01ba-43bc-835a-61ddc4ad16e1.png)
+![Longest Connection Table](https://user-images.githubusercontent.com/46865705/169703786-fa53cd1c-f943-4728-9932-d93e02dfbe5c.png)
+![Most Active Connection Table](https://user-images.githubusercontent.com/46865705/169703795-13849dc9-5e10-43e4-bd37-e46b6f71cc2c.png)
+![Port Monitoring Form](https://user-images.githubusercontent.com/46865705/169703802-8c81e5da-d28d-49e6-afac-ca55070a762f.png)
 
 <!-- SETUP -->
 ## Setup
